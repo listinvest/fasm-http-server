@@ -31,11 +31,11 @@ main:
         call    so.socket
         mov     dword[sss],eax
         mov     ebx,dword[srv_port]
-        call    so.bind
-        call    so.listen
-.xc:
-        call    so.accept
-        jmp     .xc
+        ;call    so.bind
+        ;call    so.listen
+;.xc:
+        ;call    so.accept
+        ;jmp     .xc
  exit:
         mov     eax,1
         xor     ebx,ebx
