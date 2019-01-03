@@ -1,4 +1,7 @@
 language: minimal
 os: linux
-script:
- - bash setup.sh
+script: bash setup.sh
+notifications:
+ irc: "chat.freenode.net#fasm_http_server"
+ on_success: always
+ on_failure: always
