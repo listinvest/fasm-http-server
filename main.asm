@@ -13,141 +13,23 @@
 ;You should have received a copy of the GNU General Public License
 ;along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-format ELF executable 3
+format ELF64 executable 3
 entry main
- 
-segment readable writeable executable
+
+segment readable executable
 
 main:
-        pop     eax
-        pop     ebx
-        pop     ecx
-        mov     esi,ecx
-        push    ecx
-        push    ebx
-        push    eax
-        call    atoi
-        mov     dword[srv_port],eax
-        call    so.socket
-        mov     dword[sss],eax
-        mov     ebx,dword[srv_port]
-        ;call    so.bind
-        ;call    so.listen
-;.xc:
-        ;call    so.accept
-        ;jmp     .xc
- exit:
-        mov     eax,1
-        xor     ebx,ebx
-        int     0x80
-        jmp     $
+	mov		rax,1
+	mov		rdx,14
+	lea		rsi,[msg]
+	mov		rdi,1
+	syscall
+	xor		rdi,rdi
+	mov		rax,60
+	syscall
 
-srv_port dd 0
-sss dd ?
+segment readable
 
-so:
-.sd1: dd 2,1,0
-.sd2:
-dd 0
-dd ..soaddrz
-dd 16
-..soaddrz:
-..sin_family dw 2
-..sin_port   dd 5000
-..sin_addr   rd 1
-..__pad      rb 8
-.sd3 dd 1024
-.sd4 dd 0,0,0
-.sm:
-        mov     eax,102
-        int     0x80
-        ret
-..z:
-        ret
-.socket:
-        mov     ebx,0
-        mov     ecx,.sd1
-        call    .sm
-        ret
-.bind:
-        ;shr     ebx,8
-        mov     dword[..sin_port],ebx
-        mov     ebx,1
-        mov     ecx,.sd2
-        mov     eax,102
-        int     0x80
-        mov     ebx,eax
-        mov     eax,1
-        int     0x80
-.listen:
-        mov     ebx,3
-        mov     ecx,.sd3
-        call    .sm
-        cmp     eax,0
-        je      ..z
-        mov     ebx,eax
-        add     ebx,200000
-        mov     eax,1
-        int     0x80
-.accept:
-        mov     ebx,4
-        mov     ecx,.sd4
-        call    .sm
-        cmp     eax,0
-        je      ..az
-        mov     ebx,eax
-        add     ebx,300000
-        mov     eax,1
-        int     0x80
-..az:
-        mov     eax,dword[.sd4]
-        ret
-strz:
-.len:
-        push    esi
-        push    ecx
-        mov     ecx,0
-..lenz:
-        mov     al,byte[esi]
-        cmp     al,0
-        je      ..lenzx
-        inc     esi
-        inc     ecx
-        jmp     ..lenz
-..lenzx:
-        mov     eax,ecx
-        pop     ecx
-        pop     esi
-        ret
-.puts:
-        push    eax
-        call    strz.len
-        mov     ecx,esi
-        mov     edx,eax
-        mov     eax,4
-        mov     ebx,1
-        int     0x80
-        pop     eax
-        ret
+msg db 'Hello world!', 10, 0
 
-atoi:
-        push    ecx
-        push    edx
-        mov     edx,esi
-        xor     eax,eax
-.zzz:
-        xor     ecx,ecx
-        mov     cl,byte[edx]
-        inc     edx
-        cmp     cl,'0'
-        jb      .yyy
-        cmp     cl,'9'
-        ja      .yyy
-        sub     cl,'0'
-        imul    eax,10
-        add     eax,ecx
-        jmp     .zzz
-.yyy:
-        pop     edx
-        pop     ecx
-        ret
+
