@@ -1,6 +1,6 @@
 ;fasm-server
 ;heroku fasm server
-;Copyright © 2017 Nadeen Udantha
+;Copyright © 2018 Nadeen Udantha
 ;<udanthan@gmail.com>
 ;This program is free software: you can redistribute it and/or modify 
 ;it under the terms of the GNU General Public License as published by
