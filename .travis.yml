@@ -1,1 +1,3 @@
-language: fasm
+language: python
+before_install:
+ - sudo apt-get install -y fasm
