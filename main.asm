@@ -1,5 +1,5 @@
 ;fasm-http-server
-;fasm http server ;-)
+;️❤️💚💛fasm http server💜💙🧡
 ;Copyright © 2019 Nadeen Udantha
 ;<udanthan@gmail.com>
 ;This program is free software: you can redistribute it and/or modify 
@@ -20,7 +20,7 @@ segment readable executable
 
 main:
 	mov		rax,1
-	mov		rdx,14
+	mov		rdx,12
 	lea		rsi,[msg]
 	mov		rdi,1
 	syscall
@@ -30,6 +30,6 @@ main:
 
 segment readable
 
-msg db 'Hello world!', 10, 0
+msg db 'Hello😘!123456789'
 
 
