@@ -1,5 +1,5 @@
 ;fasm-http-server
-;fasm http server
+;fasm http server ;-)
 ;Copyright © 2019 Nadeen Udantha
 ;<udanthan@gmail.com>
 ;This program is free software: you can redistribute it and/or modify 
@@ -35,16 +35,12 @@ main:
         call    so.listen
 .xc:
         call    so.accept
-        mov     esi,str_004
-        call    strz.puts
-        ;call    client
-        ;jmp     .xc
+        jmp     .xc
  exit:
         mov     eax,1
         xor     ebx,ebx
         int     0x80
-.e:
-        jmp     .e
+        jmp     $
 
 srv_port dd 0
 sss dd ?
