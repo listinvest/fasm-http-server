@@ -1,11 +1,4 @@
 language: minimal
 os: linux
-before_install:
-  - export PATH="$PATH:$PWD/fasm"
-install:
- - wget --no-verbose https://flatassembler.net/fasm-1.73.04.tgz --output-document=/tmp/fasm.tgz
- - tar -xvzf /tmp/fasm.tgz -C $PWD
- - ls -al
- - chmod +x fasm/fasm
 script:
- - fasm main.asm
+ - setup.sh
