@@ -99,7 +99,7 @@ putln2:
     push rdi
     push rsi
     push rcx
-    lea rsi,[str_ln]
+    lea rsi,[str_lf]
     mov rax,1
     mov rdx,1
     mov rdi,1
