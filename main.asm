@@ -26,12 +26,12 @@ segment readable executable
 
 main:
     puts str_starting
-    call create_socket
+    call create_ssocket
     cmp rax,0
     je exit
     puts str_ssck
     jmp exit
-sys_socket:
+create_ssocket:
     mov rax,41
     mov rdi,2
     mov rsi,1
