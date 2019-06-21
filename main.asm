@@ -18,7 +18,10 @@ macro puts x
     lea rsi,[x]
     call puts2
 }
-
+macro putln
+{
+    call putln2
+}
 format ELF64 executable 3
 entry main
 
@@ -85,6 +88,44 @@ strlen:
     pop rax
     pop rsi
     ret
+putln2:
+    push rax
+    push rdx
+    push rdi
+    push rsi
+    push rcx
+    lea rsi,[str_ln]
+    mov rax,1
+    mov rdx,1
+    mov rdi,1
+    syscall
+    pop rcx
+    pop rsi
+    pop rdi
+    pop rdx
+    pop rax
+    ret
+atoi:
+        push    rcx
+        push    rdx
+        mov     rdx,rsi
+        xor     rax,rax
+@@:
+        xor     rcx,rcx
+        mov     cl,byte[rdx]
+        inc     rdx
+        cmp     cl,'0'
+        jb      @f
+        cmp     cl,'9'
+        ja      @f
+        sub     cl,'0'
+        imul    rax,10
+        add     dax,rcx
+        jmp     @b
+@@:
+        pop     rdx
+        pop     rcx
+        ret
 
 segment readable writeable
 
@@ -97,6 +138,7 @@ ssck dq ?
 
 segment readable
 
-str_starting db 'main',$0d,0
-str_ssck db 'server socket',$0d,0
-str_bind db 'server bind',$0d,0
+str_lf db $0a
+str_main1 db 'main',0
+str_ssck db 'server socket',0
+str_bind db 'server bind',0
