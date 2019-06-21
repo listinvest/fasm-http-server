@@ -19,22 +19,41 @@ entry main
 segment readable executable
 
 main:
-    lea  rsi,[msg]
+    lea rsi,[msg]
     call puts
 exit:
-	mov	 rax,60
-	xor  rdi,rdi
+	mov rax,60
+	xor rdi,rdi
 	syscall
-	jmp  $
+	jmp $
 puts:
-    mov  rax,1
-    mov  rdx,6
-    mov  rdi,1
+    push rax
+    push rdx
+    push rdi
+    push rcx
+    mov rax,1
+    call strlen
+    mov rdi,1
     syscall
+    pop rcx
+    pop rdi
+    pop rdx
+    pop rax
+    ret
+strlen:
+    push rsi
+    push eax
+    mov rdx,0
+@@:
+    mov al,[rsi+rdx]
+    inc rdx
+    cmp al,0
+    jne @b
+    pop eax
+    pop rsi
     ret
 
 segment readable
 
 msg db 'Hello!',0
-
 
