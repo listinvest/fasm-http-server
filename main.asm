@@ -97,5 +97,6 @@ ssck dq ?
 
 segment readable
 
-str_starting db 'starting server',$0d,0
-str_ssck db 'server socket created',$0d,0
+str_starting db 'main',$0d,0
+str_ssck db 'server socket',$0d,0
+str_bind db 'server bind',$0d,0
