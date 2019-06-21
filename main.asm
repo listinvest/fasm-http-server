@@ -120,7 +120,7 @@ atoi:
         ja      @f
         sub     cl,'0'
         imul    rax,10
-        add     dax,rcx
+        add     rax,rcx
         jmp     @b
 @@:
         pop     rdx
