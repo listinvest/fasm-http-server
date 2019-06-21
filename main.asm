@@ -35,7 +35,7 @@ main:
     call puts2
     putln
     call atoi
-    mov [ssport],rax
+    mov [ssport],ax
     call create_ssocket
     cmp rax,0
     jl exit
