@@ -33,7 +33,7 @@ main:
     jmp exit
 sys_socket:
     mov rax,41
-    mkv rdi,2
+    mov rdi,2
     mov rsi,1
     mov rdi,0
     syscall
