@@ -20,7 +20,7 @@ segment readable executable
 
 main:
 	mov		rax,1
-	mov		rdx,12
+	mov		rdx,15
 	lea		rsi,[msg]
 	mov		rdi,1
 	syscall
@@ -30,6 +30,6 @@ main:
 
 segment readable
 
-msg db 'Hello😘!123456789'
+msg db 'Hello!123456789'
 
 
