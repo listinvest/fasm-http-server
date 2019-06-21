@@ -13,20 +13,37 @@
 ;You should have received a copy of the GNU General Public License
 ;along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+macro puts x
+{
+    lea rsi,[x]
+    call puts2
+}
+
 format ELF64 executable 3
 entry main
 
 segment readable executable
 
 main:
-    lea rsi,[msg]
-    call puts
+    puts str_starting
+    call create_socket
+    cmp rax,0
+    je exit
+    puts str_ssck
+    jmp exit
+sys_socket:
+    mov rax,41
+    mkv rdi,2
+    mov rsi,1
+    mov rdi,0
+    syscall
+    ret
 exit:
 	mov rax,60
 	xor rdi,rdi
 	syscall
 	jmp $
-puts:
+puts2:
     push rax
     push rdx
     push rdi
@@ -49,11 +66,16 @@ strlen:
     inc rdx
     cmp al,0
     jne @b
+    dec rdx
     pop rax
     pop rsi
     ret
 
+segment readable writeable
+
+ssck dd ?
+
 segment readable
 
-msg db 'Hello!',0
-
+str_starting db 'starting server',0
+str_ssck db 'server socket created',0
