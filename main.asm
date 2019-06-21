@@ -13,20 +13,28 @@
 ;You should have received a copy of the GNU General Public License
 ;along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-format ELF executable 3
+format ELF64 executable 3
 entry main
 
 segment readable executable
 
 main:
+    lea  rsi,[msg]
+    call puts
 exit:
-	xor     edi,edi
-	mov		eax,60
+	mov	 rax,60
+	xor  rdi,rdi
 	syscall
-	jmp     $
+	jmp  $
+puts:
+    mov  rax,1
+    mov  rdx,6
+    mov  rdi,1
+    syscall
+    ret
 
 segment readable
 
-msg db 'Hello!123456789',0
+msg db 'Hello!',0
 
 
