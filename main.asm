@@ -42,14 +42,14 @@ puts:
     ret
 strlen:
     push rsi
-    push eax
+    push rax
     mov rdx,0
 @@:
     mov al,[rsi+rdx]
     inc rdx
     cmp al,0
     jne @b
-    pop eax
+    pop rax
     pop rsi
     ret
 
