@@ -25,22 +25,37 @@ entry main
 segment readable executable
 
 main:
-    puts str_starting
+    mov rax,rsp
+    mov rsi,[rax+16]
+    call puts2
     call create_ssocket
     cmp rax,0
-    je exit
+    jl exit
     puts str_ssck
+    call bind_ssocket
+    cmp rax,0
+    jl exit
+    mov [ssck],rax
+    puts str_bind
+    mov rax,[ssck]
     jmp exit
+bind_ssocket:
+    mov rsi,rax
+    mov rax,49
+    lea rdi,[ssaddr]
+    mov rdx,8
+    syscall
+    ret
 create_ssocket:
     mov rax,41
     mov rdi,2
     mov rsi,1
-    mov rdi,0
+    mov rdx,0
     syscall
     ret
 exit:
 	mov rax,60
-	xor rdi,rdi
+	mov rdi,0
 	syscall
 	jmp $
 puts2:
@@ -73,9 +88,14 @@ strlen:
 
 segment readable writeable
 
-ssck dd ?
+ssaddr dw 2
+ssport dw ?
+db 0,0,0,0
+rb 8
+
+ssck dq ?
 
 segment readable
 
-str_starting db 'starting server',0
-str_ssck db 'server socket created',0
+str_starting db 'starting server',$0d,0
+str_ssck db 'server socket created',$0d,0
