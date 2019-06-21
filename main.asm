@@ -15,8 +15,10 @@
 
 macro puts x
 {
+	push rsi
     lea rsi,[x]
     call puts2
+    pop rsi
 }
 macro putln
 {
@@ -28,9 +30,12 @@ entry main
 segment readable executable
 
 main:
-    mov rax,rsp
-    mov rsi,[rax+16]
+    puts str_main
+    mov rsi,[rsp+16]
     call puts2
+    putln
+    call atoi
+    mov [ssport],rax
     call create_ssocket
     cmp rax,0
     jl exit
@@ -139,6 +144,6 @@ ssck dq ?
 segment readable
 
 str_lf db $0a
-str_main1 db 'main',0
+str_main db 'main port=',0
 str_ssck db 'server socket',0
 str_bind db 'server bind',0
