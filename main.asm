@@ -62,8 +62,8 @@ create_ssocket:
     syscall
     ret
 exit:
+    mov rdi,rax
 	mov rax,60
-	mov rdi,0
 	syscall
 	jmp $
 puts2:
