@@ -45,12 +45,12 @@ main:
     call atoi
     mov [ssport],ax
     call create_ssocket
+    mov [ssck],rax
     puts str_ssck
     call puti64
     putln
     cmp rax,0
     jl exit
-    mov [ssck],rax
     call bind_ssocket
     puts str_bind
     call puti64
