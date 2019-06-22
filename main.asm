@@ -47,29 +47,47 @@ main:
     call create_ssocket
     puts str_ssck
     call puti64
+    putln
     cmp rax,0
     jl exit
     call bind_ssocket
     puts str_bind
     call puti64
+    putln
     cmp rax,0
     jl exit
     mov [ssck],rax
     mov rax,[ssck]
     jmp exit
 bind_ssocket:
+    push rsi
+    push rcx
+    push rdx
+    push rdi
     mov rsi,rax
     mov rax,49
     lea rdi,[ssaddr]
     mov rdx,8
     syscall
+    pop rdi
+    pop rdx
+    pop rcx
+    pop rsi
     ret
 create_ssocket:
+    push rdi
+    push rsi
+    push rdx
+    push rcx
     mov rax,41
     mov rdi,2
     mov rsi,1
     mov rdx,0
     syscall
+    pop rcx
+    pop rdx
+    pop rsi
+    pop rdi
     ret
 exit:
 	mov rax,60
@@ -146,12 +164,20 @@ puti64:
         push rax
         push rbx
         push rsi
+        push rcx
+        mov rcx,16
         lea rsi,[hexchars]
         mov rbx,rax
         mov rax,0
+@@:
         mov al,bl
         mov al,byte[rsi+rax]
         call putc2
+        shl rbx,4
+        dec rcx
+        cmp rcx,0
+        jne @b
+        pop rcx
         pop rsi
         pop rbx
         pop rax
@@ -170,8 +196,8 @@ ssck dq ?
 segment readable
 
 str_main db 'main port=',0
-str_ssck db 'server socket',0
-str_bind db 'server bind',0
+str_ssck db 'socket=',0
+str_bind db 'bind=',0
 
 hexchars db '0123456789ABCDEF'
 
