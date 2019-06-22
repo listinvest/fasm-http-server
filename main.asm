@@ -88,7 +88,7 @@ accept_ssocket:
     push rcx
     mov rax,43
     mov rdi,[ssck]
-    lea rsi,[aaddrt]
+    lea rsi,[saddrt]
     mov rdx,saddrt.length
     syscall
     pop rcx
