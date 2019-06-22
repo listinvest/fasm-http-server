@@ -67,7 +67,7 @@ bind_ssocket:
     mov rsi,rax
     mov rax,49
     lea rdi,[ssaddr]
-    mov rdx,8
+    mov rdx,ssaddr.length
     syscall
     pop rdi
     pop rdx
@@ -194,6 +194,7 @@ ssaddr dw 2
 ssport dw ?
 db 0,0,0,0
 rb 8
+ssaddr.length = $-ssaddr
 
 ssck dq ?
 
