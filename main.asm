@@ -68,17 +68,14 @@ reaccept:
     call accept_ssocket
     mov [sck],rax
     puts str_accept
-    mov dword[saddr],123
     call puti64
     putln
     puts str_connected
-    mov rax,0
-    mov eax,dword[sck]
+    mov rax,qword[sck]
     call puti64
     mov al,' '
     putc
-    mov rax,0
-    mov eax,dword[saddr]
+    mov rax,qword[saddr]
     call puti64
     mov al,' '
     putc
@@ -99,8 +96,8 @@ accept_ssocket:
     syscall
     pop rcx
     pop rdx
-    pop rdi
     pop rsi
+    pop rdi
     ret
 listen_ssocket:
     push rsi
@@ -244,6 +241,8 @@ puti64:
 
 segment readable writeable
 
+rb 64
+
 putcx db ?
 
 ssaddr dw 2
@@ -254,12 +253,14 @@ ssaddr.length = $-ssaddr
 
 saddrt dw 2
 sport dw ?
-saddr db 0,0,0,0
+saddr db ?,?,?,?
 rb 8
 saddrt.length = $-saddrt
 
 ssck dq ?
 sck dq ?
+
+rb 64
 
 segment readable
 
