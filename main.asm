@@ -45,12 +45,12 @@ main:
     call atoi
     mov [ssport],ax
     call create_ssocket
-    mov [ssck],rax
     puts str_ssck
     call puti64
     putln
     cmp rax,0
     jl exit
+    mov [ssck],rax
     call bind_ssocket
     puts str_bind
     call puti64
@@ -68,19 +68,16 @@ main:
 listen_ssocket:
     push rsi
     push rcx
-    push rax
     push rdi
     mov rax,50
     mov rdi,[ssck]
     mov rsi,128
     syscall
     pop rdi
-    pop rax
     pop rcx
     pop rsi
     ret
 bind_ssocket:
-    push rax
     push rsi
     push rcx
     push rdx
@@ -94,7 +91,6 @@ bind_ssocket:
     pop rdx
     pop rcx
     pop rsi
-    pop rax
     ret
 create_ssocket:
     push rdi
