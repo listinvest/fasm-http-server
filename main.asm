@@ -57,7 +57,7 @@ main:
     putln
     cmp rax,0
     jne exit
-    call listen_socket
+    call listen_ssocket
     puts str_listen
     call puti64
     putln
