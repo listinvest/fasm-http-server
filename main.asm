@@ -66,12 +66,16 @@ main:
     jne exit
 reaccept:
     call accept_ssocket
+    mov [sck],rax
     puts str_accept
     call puti64
     putln
-    cmp rax,0
-    jl reaccept
     puts str_connected
+    mov rax,0
+    mov eax,dword[sck]
+    call puti64
+    mov al,' '
+    putc
     mov rax,0
     mov eax,dword[saddr]
     call puti64
@@ -254,6 +258,7 @@ rb 8
 saddrt.length = $-saddrt
 
 ssck dq ?
+sck dq ?
 
 segment readable
 
