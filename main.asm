@@ -163,22 +163,26 @@ atoi:
 puti64:
         push rax
         push rbx
-        push rsi
         push rcx
-        mov rcx,16
-        lea rsi,[hexchars]
+        mov rcx,0
         mov rbx,rax
         mov rax,0
-@@:
+.next:
         mov al,bl
-        mov al,byte[rsi+rax]
+        and al,0Fh
+        cmp al,9
+        jg .chrz
+        add al,'0'
+        jmp .prnt
+.chrz:
+        add al,'A'
+.prnt:
         call putc2
         shl rbx,4
-        dec rcx
-        cmp rcx,0
-        jne @b
+        inc rcx
+        cmp rcx,16
+        jl .next
         pop rcx
-        pop rsi
         pop rbx
         pop rax
         ret
@@ -198,6 +202,4 @@ segment readable
 str_main db 'main port=',0
 str_ssck db 'socket=',0
 str_bind db 'bind=',0
-
-hexchars db '0123456789ABCDEF'
 
