@@ -70,7 +70,7 @@ reaccept:
     call puti64
     putln
     cmp rax,0
-    jl exit
+    jl reaccept
     puts str_connected
     mov rax,0
     mov eax,dword[saddr]
