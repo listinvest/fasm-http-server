@@ -78,7 +78,7 @@ reaccept:
     mov ax,sport
     puti64
     putln
-    jmp exit
+    jmp reaccept
 accept_ssocket:
     push rdi
     push rsi
