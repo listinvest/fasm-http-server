@@ -71,17 +71,16 @@ reaccept:
     call puti64
     putln
     puts str_connected
-    mov rax,qword[sck]
-    call puti64
+    mov eax,dword[sck]
+    call puti32
     mov al,' '
     putc
-    mov rax,qword[saddr]
-    call puti64
+    mov eax,dword[saddr]
+    call puti32
     mov al,' '
     putc
-    mov rax,0
     mov ax,[sport]
-    call puti64
+    call puti16
     putln
     jmp reaccept
 accept_ssocket:
@@ -212,11 +211,27 @@ atoi:
         pop     rdx
         pop     rcx
         ret
+puti16:
+        push rcx
+        mov rcx,4
+        call putix
+        pop rcx
+        ret
+puti32:
+        push rcx
+        mov rcx,8
+        call putix
+        pop rcx
+        ret
 puti64:
+        push rcx
+        mov rcx,16
+        call putix
+        pop rcx
+        ret
+putix:
         push rax
         push rbx
-        push rcx
-        mov rcx,0
         mov rbx,rax
         mov rax,0
 .next:
@@ -231,10 +246,9 @@ puti64:
 .prnt:
         call putc2
         shl rbx,4
-        inc rcx
-        cmp rcx,16
-        jl .next
-        pop rcx
+        dec rcx
+        cmp rcx,0
+        jg .next
         pop rbx
         pop rax
         ret
