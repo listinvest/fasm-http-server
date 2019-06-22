@@ -77,7 +77,7 @@ reaccept:
     mov al,' '
     putc
     mov rax,0
-    mov ax,sport
+    mov ax,[sport]
     call puti64
     putln
     jmp reaccept
