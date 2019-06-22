@@ -71,7 +71,12 @@ reaccept:
     cmp rax,0
     jl exit
     puts str_connected
-    puti64 addr
+    puti64 saddr
+    mov al,' '
+    putc
+    mov rax,0
+    mov ax,sport
+    puti64
     putln
     jmp exit
 accept_ssocket:
@@ -81,8 +86,8 @@ accept_ssocket:
     push rcx
     mov rax,43
     mov rdi,[ssck]
-    lea rsi,[addrt]
-    mov rdx,addrt.length
+    lea rsi,[aaddrt]
+    mov rdx,saddrt.length
     syscall
     pop rcx
     pop rdx
@@ -239,11 +244,11 @@ db 0,0,0,0
 rb 8
 ssaddr.length = $-ssaddr
 
-addrt dw 2
-port dw ?
-addr db 0,0,0,0
+saddrt dw 2
+sport dw ?
+saddr db 0,0,0,0
 rb 8
-addrt.length = $-addrt
+saddrt.length = $-saddrt
 
 ssck dq ?
 
