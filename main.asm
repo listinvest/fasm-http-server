@@ -104,13 +104,13 @@ strlen:
     pop rsi
     ret
 putc2:
-    mov [putsx],al
+    mov [putcx],al
     push rax
     push rdx
     push rdi
     push rsi
     push rcx
-    lea rsi,[putx]
+    lea rsi,[putcx]
     mov rax,1
     mov rdx,1
     mov rdi,1
