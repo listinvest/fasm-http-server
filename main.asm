@@ -77,7 +77,7 @@ reaccept:
     putc
     mov rax,0
     mov ax,sport
-    puti64
+    call puti64
     putln
     jmp reaccept
 accept_ssocket:
