@@ -63,8 +63,32 @@ main:
     putln
     cmp rax,0
     jne exit
-    
+reaccept:
+    call accept_ssocket
+    puts str_accept
+    call puti64
+    putln
+    cmp rax,0
+    jl exit
+    puts str_connected
+    puti64 addr
+    putln
     jmp exit
+accept_ssocket:
+    push rdi
+    push rsi
+    push rdx
+    push rcx
+    mov rax,43
+    mov rdi,[ssck]
+    lea rsi,[addrt]
+    mov rdx,addrt.length
+    syscall
+    pop rcx
+    pop rdx
+    pop rdi
+    pop rsi
+    ret
 listen_ssocket:
     push rsi
     push rcx
@@ -208,11 +232,18 @@ puti64:
 segment readable writeable
 
 putcx db ?
+
 ssaddr dw 2
 ssport dw ?
 db 0,0,0,0
 rb 8
 ssaddr.length = $-ssaddr
+
+addrt dw 2
+port dw ?
+addr db 0,0,0,0
+rb 8
+addrt.length = $-addrt
 
 ssck dq ?
 
@@ -222,4 +253,5 @@ str_main db 'main port=',0
 str_ssck db 'socket=',0
 str_bind db 'bind=',0
 str_listen db 'listen=',0
-
+str_accept db 'accept=',0
+str_connected db 'connected ',0
