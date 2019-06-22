@@ -20,10 +20,18 @@ macro puts x
     call puts2
     pop rsi
 }
+macro putc
+{
+    call putc2
+}
 macro putln
 {
-    call putln2
+	push rax
+	mov al,0ah
+    call putc2
+    pop rax
 }
+
 format ELF64 executable 3
 entry main
 
@@ -37,14 +45,16 @@ main:
     call atoi
     mov [ssport],ax
     call create_ssocket
+    puts str_ssck
+    call puti64
     cmp rax,0
     jl exit
-    puts str_ssck
     call bind_ssocket
+    puts str_bind
+    call puti64
     cmp rax,0
     jl exit
     mov [ssck],rax
-    puts str_bind
     mov rax,[ssck]
     jmp exit
 bind_ssocket:
@@ -62,8 +72,9 @@ create_ssocket:
     syscall
     ret
 exit:
-    mov rdi,rax
+    call itoa
 	mov rax,60
+	mov rdi,0
 	syscall
 	jmp $
 puts2:
@@ -85,7 +96,7 @@ strlen:
     push rax
     mov rdx,0
 @@:
-    mov al,[rsi+rdx]
+    mov al,byte[rsi+rdx]
     inc rdx
     cmp al,0
     jne @b
@@ -93,13 +104,14 @@ strlen:
     pop rax
     pop rsi
     ret
-putln2:
+putc2:
+    mov [putscx],al
     push rax
     push rdx
     push rdi
     push rsi
     push rcx
-    lea rsi,[str_lf]
+    lea rsi,[putcx]
     mov rax,1
     mov rdx,1
     mov rdi,1
@@ -131,9 +143,24 @@ atoi:
         pop     rdx
         pop     rcx
         ret
+puti64:
+        push rax
+        push rbx
+        push rsi
+        lea rsi,[hexchars]
+        mov rbx,rax
+        mov rax,0
+        mov al,bl
+        mov al,byte[rsi+rax]
+        call putc2
+        pop rsi
+        pop rbx
+        pop rax
+        ret
 
 segment readable writeable
 
+putcx db ?
 ssaddr dw 2
 ssport dw ?
 db 0,0,0,0
@@ -143,7 +170,9 @@ ssck dq ?
 
 segment readable
 
-str_lf db $0a
 str_main db 'main port=',0
 str_ssck db 'server socket',0
 str_bind db 'server bind',0
+
+hexchars db '0123456789ABCDEF'
+
