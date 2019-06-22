@@ -56,9 +56,31 @@ main:
     call puti64
     putln
     cmp rax,0
-    jl exit
+    jne exit
+    call listen_socket
+    puts str_listen
+    call puti64
+    putln
+    cmp rax,0
+    jne exit
+    
     jmp exit
+listen_ssocket:
+    push rsi
+    push rcx
+    push rax
+    push rdi
+    mov rax,50
+    mov rdi,[ssck]
+    mov rsi,128
+    syscall
+    pop rdi
+    pop rax
+    pop rcx
+    pop rsi
+    ret
 bind_ssocket:
+    push rax
     push rsi
     push rcx
     push rdx
@@ -72,6 +94,7 @@ bind_ssocket:
     pop rdx
     pop rcx
     pop rsi
+    pop rax
     ret
 create_ssocket:
     push rdi
@@ -202,4 +225,5 @@ segment readable
 str_main db 'main port=',0
 str_ssck db 'socket=',0
 str_bind db 'bind=',0
+str_listen db 'listen=',0
 
