@@ -43,6 +43,7 @@ main:
     call puts2
     putln
     call atoi
+    xchg al,ah
     mov [ssport],ax
     call create_ssocket
     puts str_ssck
