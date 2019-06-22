@@ -50,23 +50,22 @@ main:
     putln
     cmp rax,0
     jl exit
+    mov [ssck],rax
     call bind_ssocket
     puts str_bind
     call puti64
     putln
     cmp rax,0
     jl exit
-    mov [ssck],rax
-    mov rax,[ssck]
     jmp exit
 bind_ssocket:
     push rsi
     push rcx
     push rdx
     push rdi
-    mov rsi,rax
     mov rax,49
-    lea rdi,[ssaddr]
+    mov rdi,[ssck]
+    lea rsi,[ssaddr]
     mov rdx,ssaddr.length
     syscall
     pop rdi
