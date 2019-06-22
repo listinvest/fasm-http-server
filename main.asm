@@ -71,8 +71,9 @@ reaccept:
     cmp rax,0
     jl exit
     puts str_connected
+    mov rax,0
     mov eax,dword[saddr]
-    call putip4
+    call puti64
     mov al,' '
     putc
     mov rax,0
