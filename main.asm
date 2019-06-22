@@ -68,6 +68,7 @@ reaccept:
     call accept_ssocket
     mov [sck],rax
     puts str_accept
+    mov dword[saddr],123
     call puti64
     putln
     puts str_connected
